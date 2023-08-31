@@ -16,9 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    checkToken();
   }
-
-  void deleteToken() async => await storage.deleteAll();
 
   void checkToken() async {
     final [refreshToken, accessToken] = await Future.wait([
