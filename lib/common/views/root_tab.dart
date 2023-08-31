@@ -9,10 +9,30 @@ class RootTap extends StatefulWidget {
   State<RootTap> createState() => _RootTapState();
 }
 
-class _RootTapState extends State<RootTap> {
+class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
   int index = 0;
 
-  void _onChangeIndex(int i) => setState(() => index = i);
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 4, vsync: this);
+    _tabController.addListener(_tabListener);
+  }
+
+  void _tabListener() {
+    setState(() {
+      index = _tabController.index;
+    });
+  }
+
+  void _onChangeIndex(int i) => _tabController.animateTo(i);
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_tabListener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +66,31 @@ class _RootTapState extends State<RootTap> {
             ),
           ],
         ),
-        child: const Center(
-          child: Text("Root Tap"),
+        child: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _tabController,
+          children: [
+            Center(
+              child: Container(
+                child: const Text("홈"),
+              ),
+            ),
+            Center(
+              child: Container(
+                child: const Text("음식"),
+              ),
+            ),
+            Center(
+              child: Container(
+                child: const Text("주문"),
+              ),
+            ),
+            Center(
+              child: Container(
+                child: const Text("프로필"),
+              ),
+            ),
+          ],
         ),
       ),
     );
