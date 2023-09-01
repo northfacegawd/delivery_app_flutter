@@ -1,10 +1,12 @@
 import 'package:delivery_app/auth/constants/data.dart';
 import 'package:delivery_app/common/constants/colors.dart';
+import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
 import 'package:delivery_app/product/components/product_card.dart';
 import 'package:delivery_app/product/models/product_model.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_detail_model.dart';
+import 'package:delivery_app/restaurant/repository/restaurant_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +15,11 @@ class RestaurantDetailScreen extends StatelessWidget {
 
   const RestaurantDetailScreen({super.key, required this.id});
 
-  Future getRestaurantDetail() async {
+  Future<RestaurantDetailModel> getRestaurantDetail() async {
     final dio = Dio();
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    final res = await dio.get(
-      'http://$ip/restaurant/$id',
-      options: Options(
-        headers: {'Authorization': 'Bearer $accessToken'},
-      ),
-    );
-    return res.data;
+    dio.interceptors.add(CustomInterceptor(storage: storage));
+    final repository = RestaurantRepository(dio);
+    return repository.getRestaurantDetail(id: id);
   }
 
   @override
@@ -39,7 +36,7 @@ class RestaurantDetailScreen extends StatelessWidget {
                 ),
               );
             }
-            final item = RestaurantDetailModel.fromJson(snapshot.data);
+            final item = snapshot.data!;
             return CustomScrollView(
               slivers: [
                 renderTop(item),

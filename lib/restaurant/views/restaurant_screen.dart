@@ -32,7 +32,6 @@ class RestaurantScreen extends StatelessWidget {
           child: FutureBuilder(
             future: paginateRestaurant(),
             builder: (context, snapshot) {
-              print(snapshot.data);
               if (!snapshot.hasData) {
                 return const Center(
                   child: CircularProgressIndicator(
