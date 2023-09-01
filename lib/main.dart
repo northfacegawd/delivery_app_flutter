@@ -1,4 +1,3 @@
-import 'package:delivery_app/auth/views/login_screen.dart';
 import 'package:delivery_app/common/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 
