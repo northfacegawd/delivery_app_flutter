@@ -1,5 +1,5 @@
 import 'package:delivery_app/common/constants/colors.dart';
-import 'package:delivery_app/restaurant/model/restaurant_model.dart';
+import 'package:delivery_app/restaurant/models/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantCard extends StatelessWidget {
@@ -8,6 +8,8 @@ class RestaurantCard extends StatelessWidget {
   final List<String> tags;
   final int ratingsCount, deliveryTime, deliveryFee;
   final double ratings;
+  final bool? isDetail;
+  final String? detail;
 
   const RestaurantCard({
     super.key,
@@ -18,9 +20,12 @@ class RestaurantCard extends StatelessWidget {
     required this.deliveryTime,
     required this.deliveryFee,
     required this.ratings,
+    this.detail,
+    this.isDetail = false,
   });
 
-  factory RestaurantCard.fromModel({required RestaurantModel model}) {
+  factory RestaurantCard.fromModel(
+      {required RestaurantModel model, bool? isDetail = false}) {
     return RestaurantCard(
       image: Image.network(
         model.thumbUrl,
@@ -32,6 +37,7 @@ class RestaurantCard extends StatelessWidget {
       deliveryTime: model.deliveryTime,
       deliveryFee: model.deliveryFee,
       ratings: model.ratings,
+      isDetail: isDetail,
     );
   }
 
@@ -39,54 +45,68 @@ class RestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: image,
-        ),
+        isDetail!
+            ? image
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: image,
+              ),
         const SizedBox(height: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: isDetail! ? 16 : 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              tags.join(" · "),
-              style: const TextStyle(
-                color: BODY_TEXT_COLOR,
-                fontSize: 14,
+              const SizedBox(height: 8),
+              Text(
+                tags.join(" · "),
+                style: const TextStyle(
+                  color: BODY_TEXT_COLOR,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _IconText(
-                  icon: Icons.star,
-                  label: ratings.toString(),
-                ),
-                renderDot(),
-                _IconText(
-                  icon: Icons.receipt,
-                  label: ratingsCount.toString(),
-                ),
-                renderDot(),
-                _IconText(
-                  icon: Icons.timelapse_outlined,
-                  label: '$deliveryTime분',
-                ),
-                renderDot(),
-                _IconText(
-                  icon: Icons.monetization_on,
-                  label: '${deliveryFee == 0 ? "무료" : deliveryFee.toDouble()}',
-                ),
-              ],
-            )
-          ],
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  _IconText(
+                    icon: Icons.star,
+                    label: ratings.toString(),
+                  ),
+                  renderDot(),
+                  _IconText(
+                    icon: Icons.receipt,
+                    label: ratingsCount.toString(),
+                  ),
+                  renderDot(),
+                  _IconText(
+                    icon: Icons.timelapse_outlined,
+                    label: '$deliveryTime분',
+                  ),
+                  renderDot(),
+                  _IconText(
+                    icon: Icons.monetization_on,
+                    label:
+                        '${deliveryFee == 0 ? "무료" : deliveryFee.toDouble()}',
+                  ),
+                ],
+              ),
+              if (detail != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    detail!,
+                    style: const TextStyle(),
+                  ),
+                )
+            ],
+          ),
         )
       ],
     );
