@@ -44,9 +44,7 @@ class RestaurantScreen extends StatelessWidget {
               return ListView.separated(
                 itemCount: restaurants.length,
                 itemBuilder: (context, index) {
-                  final item = RestaurantModel.fromJson(
-                    json: restaurants[index],
-                  );
+                  final item = RestaurantModel.fromJson(restaurants[index]);
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
