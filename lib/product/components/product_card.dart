@@ -1,8 +1,35 @@
 import 'package:delivery_app/common/constants/colors.dart';
+import 'package:delivery_app/product/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  final Image image;
+  final String name, detail;
+  final int price;
+
+  const ProductCard({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.detail,
+    required this.price,
+  });
+
+  factory ProductCard.fromModel({
+    required ProductModel model,
+  }) {
+    return ProductCard(
+      image: Image.network(
+        model.imgUrl,
+        width: 110,
+        height: 110,
+        fit: BoxFit.cover,
+      ),
+      name: model.name,
+      detail: model.detail,
+      price: model.price,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +39,7 @@ class ProductCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              'assets/img/food/ddeok_bok_gi.jpg',
-              width: 110,
-              height: 110,
-              fit: BoxFit.cover,
-            ),
+            child: image,
           ),
           const SizedBox(width: 16),
           const Expanded(
