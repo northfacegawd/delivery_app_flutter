@@ -8,7 +8,6 @@ class RestaurantModel {
   final RestaurantPriceRange priceRange;
   final double ratings;
   final int ratingsCount, deliveryTime, deliveryFee;
-  final String? detail;
 
   RestaurantModel({
     required this.id,
@@ -20,7 +19,6 @@ class RestaurantModel {
     required this.ratingsCount,
     required this.deliveryTime,
     required this.deliveryFee,
-    this.detail,
   });
 
   factory RestaurantModel.fromJson({required Map<String, dynamic> json}) {
@@ -36,7 +34,6 @@ class RestaurantModel {
       ratingsCount: json['ratingsCount'],
       deliveryTime: json['deliveryTime'],
       deliveryFee: json['deliveryFee'],
-      detail: json['detail'],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:delivery_app/auth/constants/data.dart';
+import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
@@ -33,7 +34,11 @@ class RestaurantScreen extends StatelessWidget {
             builder: (context, snapshot) {
               print(snapshot.data);
               if (!snapshot.hasData) {
-                return Container();
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: PRIMARY_COLOR,
+                  ),
+                );
               }
               final restaurants = snapshot.data!;
               return ListView.separated(
@@ -47,7 +52,8 @@ class RestaurantScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const RestaurantDetailScreen(),
+                          builder: (context) =>
+                              RestaurantDetailScreen(id: item.id),
                         ),
                       );
                     },
