@@ -3,6 +3,7 @@ import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
+import 'package:delivery_app/restaurant/repository/restaurant_repository.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,10 @@ import 'package:flutter/material.dart';
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({super.key});
 
-  Future<List> paginateRestaurant() async {
+  Future<List<RestaurantModel>> paginateRestaurant() async {
     final dio = Dio();
     dio.interceptors.add(CustomInterceptor(storage: storage));
-
-    var res = await dio.get('http://$ip/restaurant');
-
-    return res.data['data'];
+    return (await RestaurantRepository(dio).paginate()).data;
   }
 
   @override
@@ -39,7 +37,7 @@ class RestaurantScreen extends StatelessWidget {
               return ListView.separated(
                 itemCount: restaurants.length,
                 itemBuilder: (context, index) {
-                  final item = RestaurantModel.fromJson(restaurants[index]);
+                  final item = restaurants[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
