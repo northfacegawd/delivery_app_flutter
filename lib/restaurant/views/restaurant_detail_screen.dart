@@ -17,26 +17,6 @@ class RestaurantDetailScreen extends StatelessWidget {
           renderProducts(),
         ],
       ),
-
-      // Column(
-      //   children: [
-      //     RestaurantCard(
-      //       isDetail: true,
-      //       image: Image.asset('assets/img/food/ddeok_bok_gi.jpg'),
-      //       name: '불타는 떡볶이',
-      //       tags: const ['떡볶이', '맛있음', '치즈'],
-      //       ratingsCount: 100,
-      //       deliveryTime: 30,
-      //       deliveryFee: 3000,
-      //       ratings: 4.76,
-      //       detail: '뽀글뽀글 뽀글뽀글 맛있는 라면',
-      //     ),
-      //     const Padding(
-      //       padding: EdgeInsets.symmetric(horizontal: 16),
-      //       child: ProductCard(),
-      //     )
-      //   ],
-      // ),
     );
   }
 
