@@ -1,5 +1,6 @@
 import 'package:delivery_app/auth/constants/data.dart';
 import 'package:delivery_app/common/constants/colors.dart';
+import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
@@ -11,14 +12,9 @@ class RestaurantScreen extends StatelessWidget {
 
   Future<List> paginateRestaurant() async {
     final dio = Dio();
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    dio.interceptors.add(CustomInterceptor(storage: storage));
 
-    var res = await dio.get(
-      'http://$ip/restaurant',
-      options: Options(
-        headers: {'Authorization': 'Bearer $accessToken'},
-      ),
-    );
+    var res = await dio.get('http://$ip/restaurant');
 
     return res.data['data'];
   }
