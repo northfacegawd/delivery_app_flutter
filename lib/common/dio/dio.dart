@@ -36,7 +36,8 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
+    print(
+        '[RESPONSE] [${response.requestOptions.method}] ${response.requestOptions.uri}');
     return super.onResponse(response, handler);
   }
 
