@@ -1,4 +1,5 @@
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/product/components/product_card.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,10 @@ class RestaurantDetailScreen extends StatelessWidget {
             deliveryFee: 3000,
             ratings: 4.76,
             detail: '뽀글뽀글 뽀글뽀글 맛있는 라면',
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: ProductCard(),
           )
         ],
       ),
