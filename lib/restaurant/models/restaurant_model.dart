@@ -1,4 +1,5 @@
 import 'package:delivery_app/auth/constants/data.dart';
+import 'package:delivery_app/common/utils/data_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'restaurant_model.g.dart';
@@ -11,7 +12,7 @@ class RestaurantModel {
 
   final String id, name;
   @JsonKey(
-    fromJson: pathToUrl,
+    fromJson: DataUtils.pathToUrl,
   )
   final String thumbUrl;
   final List<String> tags;

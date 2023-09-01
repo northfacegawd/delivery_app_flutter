@@ -1,7 +1,15 @@
 import 'package:delivery_app/auth/constants/data.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'product_model.g.dart';
+
+@JsonSerializable()
 class ProductModel {
-  final String id, name, imgUrl, detail;
+  static pathToUrl(String value) => 'http://$ip$value';
+
+  final String id, name, detail;
+  @JsonKey(fromJson: pathToUrl)
+  final String imgUrl;
   final int price;
 
   ProductModel({
@@ -12,13 +20,8 @@ class ProductModel {
     required this.price,
   });
 
-  factory ProductModel.fromJson({required Map<String, dynamic> json}) {
-    return ProductModel(
-      id: json['id'],
-      name: json['name'],
-      imgUrl: 'http://$ip${json['imgUrl']}',
-      detail: json['detail'],
-      price: json['price'],
-    );
-  }
+  factory ProductModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductModelToJson(this);
 }
