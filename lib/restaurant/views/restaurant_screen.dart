@@ -1,30 +1,21 @@
-import 'package:delivery_app/auth/constants/data.dart';
 import 'package:delivery_app/common/constants/colors.dart';
-import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
-import 'package:delivery_app/restaurant/models/restaurant_model.dart';
 import 'package:delivery_app/restaurant/repository/restaurant_repository.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantScreen extends StatelessWidget {
+class RestaurantScreen extends ConsumerWidget {
   const RestaurantScreen({super.key});
 
-  Future<List<RestaurantModel>> paginateRestaurant() async {
-    final dio = Dio();
-    dio.interceptors.add(CustomInterceptor(storage: storage));
-    return (await RestaurantRepository(dio).paginate()).data;
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: FutureBuilder(
-            future: paginateRestaurant(),
+            future: ref.watch(restaurantRepositoryProvider).paginate(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
@@ -35,9 +26,9 @@ class RestaurantScreen extends StatelessWidget {
               }
               final restaurants = snapshot.data!;
               return ListView.separated(
-                itemCount: restaurants.length,
+                itemCount: restaurants.data.length,
                 itemBuilder: (context, index) {
-                  final item = restaurants[index];
+                  final item = restaurants.data[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(

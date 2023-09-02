@@ -4,25 +4,29 @@ import 'package:delivery_app/auth/constants/data.dart';
 import 'package:delivery_app/common/components/custom_text_form_field.dart';
 import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/common/secure_storage/secure_storage.dart';
 import 'package:delivery_app/common/views/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final dio = Dio();
 
   final _formKey = GlobalKey<FormBuilderState>();
 
   Future _onSubmit() async {
+    final storage = ref.watch(secureStorageProvider);
+
     if (_formKey.currentState != null &&
         _formKey.currentState!.saveAndValidate()) {
       final email = _formKey.currentState!.value["email"];
