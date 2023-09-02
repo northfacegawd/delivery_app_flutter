@@ -2,10 +2,22 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cursor_pagination_model.g.dart';
 
+abstract class CursorPaginationBase {}
+
+class CursorPaginationError extends CursorPaginationBase {
+  final String message;
+
+  CursorPaginationError({
+    required this.message,
+  });
+}
+
+class CursorPaginationLoading extends CursorPaginationBase {}
+
 @JsonSerializable(
   genericArgumentFactories: true,
 )
-class CursorPagination<T> {
+class CursorPagination<T> extends CursorPaginationBase {
   final CursorPaginationMeta meta;
   final List<T> data;
 
@@ -13,6 +25,16 @@ class CursorPagination<T> {
     required this.meta,
     required this.data,
   });
+
+  CursorPagination copyWith({
+    CursorPaginationMeta? meta,
+    List<T>? data,
+  }) {
+    return CursorPagination(
+      meta: meta ?? this.meta,
+      data: data ?? this.data,
+    );
+  }
 
   factory CursorPagination.fromJson(
     Map<String, dynamic> json,
@@ -34,8 +56,34 @@ class CursorPaginationMeta {
     required this.hasMore,
   });
 
+  CursorPaginationMeta copyWith({
+    int? count,
+    bool? hasMore,
+  }) {
+    return CursorPaginationMeta(
+      count: count ?? this.count,
+      hasMore: hasMore ?? this.hasMore,
+    );
+  }
+
   factory CursorPaginationMeta.fromJson(
     Map<String, dynamic> json,
   ) =>
       _$CursorPaginationMetaFromJson(json);
+}
+
+// 새로고침
+class CursorPaginationRefetching<T> extends CursorPagination<T> {
+  CursorPaginationRefetching({
+    required super.meta,
+    required super.data,
+  });
+}
+
+// 리스트의 추가 데이터를 요청
+class CursorPaginationFetchingMore<T> extends CursorPagination<T> {
+  CursorPaginationFetchingMore({
+    required super.meta,
+    required super.data,
+  });
 }

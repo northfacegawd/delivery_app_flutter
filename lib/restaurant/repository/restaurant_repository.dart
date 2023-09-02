@@ -1,5 +1,6 @@
 import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/common/models/cursor_pagination_model.dart';
+import 'package:delivery_app/common/models/pagination_params.dart';
 import 'package:delivery_app/restaurant/models/restaurant_detail_model.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -21,7 +22,9 @@ abstract class RestaurantRepository {
 
   @GET('/')
   @Headers({"accessToken": "true"})
-  Future<CursorPagination<RestaurantModel>> paginate();
+  Future<CursorPagination<RestaurantModel>> paginate({
+    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  });
 
   @GET('/{id}')
   @Headers({"accessToken": "true"})
