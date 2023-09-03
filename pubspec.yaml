@@ -43,6 +43,7 @@ dependencies:
   logger: any
   riverpod_generator: ^2.3.1
   flutter_riverpod: ^2.3.10
+  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:
