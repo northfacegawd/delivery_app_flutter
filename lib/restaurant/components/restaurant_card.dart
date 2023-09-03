@@ -99,7 +99,7 @@ class RestaurantCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (detail != null)
+              if (detail != null && isDetail!)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Text(
