@@ -26,5 +26,5 @@ class ProductModel implements IModelWithId {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
-      ProductModel.fromJson(json);
+      _$ProductModelFromJson(json);
 }

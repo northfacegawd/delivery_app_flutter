@@ -65,25 +65,28 @@ class _PaginationListViewState<T extends IModelWithId>
     }
 
     if (state is CursorPaginationError) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            state.message,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: PRIMARY_COLOR,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              state.message,
+              textAlign: TextAlign.center,
             ),
-            onPressed: () {
-              ref.read(widget.provider.notifier).paginate(forceRefetch: true);
-            },
-            child: const Text("다시 시도"),
-          ),
-        ],
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: PRIMARY_COLOR,
+              ),
+              onPressed: () {
+                ref.read(widget.provider.notifier).paginate(forceRefetch: true);
+              },
+              child: const Text("다시 시도"),
+            ),
+          ],
+        ),
       );
     }
 
