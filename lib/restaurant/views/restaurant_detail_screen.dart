@@ -2,6 +2,7 @@ import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
 import 'package:delivery_app/product/components/product_card.dart';
 import 'package:delivery_app/product/models/product_model.dart';
+import 'package:delivery_app/rating/components/rating_card.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_detail_model.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
@@ -54,6 +55,19 @@ class _RestaurantDetailScreenState
                 products: state.products,
                 context: context,
               ),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverToBoxAdapter(
+                child: RatingCard(
+                  avatarImage:
+                      AssetImage('assets/img/logo/codefactory_logo.png'),
+                  images: [],
+                  rating: 4,
+                  content: '맛있습니다.',
+                  email: 'test@codefactory.ai',
+                ),
+              ),
+            )
           ],
         ));
   }
