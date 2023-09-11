@@ -11,7 +11,9 @@ class PaginationProvider<T extends IModelWithId,
 
   PaginationProvider({
     required this.repository,
-  }) : super(CursorPaginationLoading());
+  }) : super(CursorPaginationLoading()) {
+    paginate();
+  }
 
   Future<void> paginate({
     int fetchCount = 20,
@@ -31,7 +33,7 @@ class PaginationProvider<T extends IModelWithId,
       // 바로 반환하는 상황
       // 1) hasMore == false (기존 상태에서 이미 다음 데이터가 없다는 걸 알고있는 경우)
       if (state is CursorPagination && !forceRefetch) {
-        final pState = state as CursorPagination<T>;
+        final pState = state as CursorPagination;
         if (!pState.meta.hasMore) {
           return;
         }
@@ -91,7 +93,9 @@ class PaginationProvider<T extends IModelWithId,
       } else {
         state = res;
       }
-    } catch (e) {
+    } catch (e, stack) {
+      print(e);
+      print(stack);
       state = CursorPaginationError(message: '데이터를 받아올 수 없습니다.');
     }
   }
