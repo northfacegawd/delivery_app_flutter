@@ -12,9 +12,7 @@ class _RestaurantRatingRepository implements RestaurantRatingRepository {
   _RestaurantRatingRepository(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'http://127.0.0.1:3000/restaurant';
-  }
+  });
 
   final Dio _dio;
 
