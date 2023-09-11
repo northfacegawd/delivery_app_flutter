@@ -59,31 +59,31 @@ class ProductCard extends StatelessWidget {
             child: image,
           ),
           const SizedBox(width: 16),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "떡볶이",
-                  style: TextStyle(
+                  name,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
-                  "전통 떡볶이의 정석\n맛있습니다전통 떡볶이의 정석\n맛있습니다전통 떡볶이의 정석\n맛있습니다전통 떡볶이의 정석\n맛있습니다전통 떡볶이의 정석\n맛있습니다",
+                  detail,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: BODY_TEXT_COLOR,
                   ),
                 ),
                 Text(
-                  '₩10,000',
+                  price.toString(),
                   textAlign: TextAlign.right,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: PRIMARY_COLOR,
                     fontWeight: FontWeight.w500,
