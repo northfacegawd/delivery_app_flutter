@@ -1,4 +1,5 @@
 import 'package:delivery_app/auth/constants/data.dart';
+import 'package:delivery_app/common/models/model_with_id.dart';
 import 'package:delivery_app/common/utils/data_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,10 +8,12 @@ part 'restaurant_model.g.dart';
 enum RestaurantPriceRange { expensive, medium, cheap }
 
 @JsonSerializable()
-class RestaurantModel {
+class RestaurantModel implements IModelWithId {
   static pathToUrl(String thumbUrl) => 'http://$ip$thumbUrl';
 
-  final String id, name;
+  @override
+  final String id;
+  final String name;
   @JsonKey(
     fromJson: DataUtils.pathToUrl,
   )
