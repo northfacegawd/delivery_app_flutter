@@ -1,14 +1,15 @@
 import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/common/models/cursor_pagination_model.dart';
 import 'package:delivery_app/product/components/product_card.dart';
 import 'package:delivery_app/product/models/product_model.dart';
 import 'package:delivery_app/rating/components/rating_card.dart';
+import 'package:delivery_app/rating/models/rating_model.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_detail_model.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
 import 'package:delivery_app/restaurant/provider/restaurant_provider.dart';
 import 'package:delivery_app/restaurant/provider/restaurant_rating_provider.dart';
-import 'package:delivery_app/restaurant/repository/restaurant_rating_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletons/skeletons.dart';
@@ -47,32 +48,41 @@ class _RestaurantDetailScreenState
     }
 
     return DefaultLayout(
-        title: "불타는 떡볶이",
-        child: CustomScrollView(
-          slivers: [
-            renderTop(state),
-            if (state is! RestaurantDetailModel) renderLoading(),
-            if (state is RestaurantDetailModel) renderLabel(),
-            if (state is RestaurantDetailModel)
-              renderProducts(
-                products: state.products,
-                context: context,
-              ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverToBoxAdapter(
-                child: RatingCard(
-                  avatarImage:
-                      AssetImage('assets/img/logo/codefactory_logo.png'),
-                  images: [],
-                  rating: 4,
-                  content: '맛있습니다.',
-                  email: 'test@codefactory.ai',
-                ),
-              ),
-            )
-          ],
-        ));
+      title: "불타는 떡볶이",
+      child: CustomScrollView(
+        slivers: [
+          renderTop(state),
+          if (state is! RestaurantDetailModel) renderLoading(),
+          if (state is RestaurantDetailModel) renderLabel(),
+          if (state is RestaurantDetailModel)
+            renderProducts(
+              products: state.products,
+              context: context,
+            ),
+          if (ratingsState is CursorPagination<RatingModel>)
+            renderRatings(
+              models: ratingsState.data,
+            ),
+        ],
+      ),
+    );
+  }
+
+  SliverPadding renderRatings({required List<RatingModel> models}) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          childCount: models.length,
+          (_, index) => Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: RatingCard.fromModel(
+              model: models[index],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   SliverPadding renderLoading() {
