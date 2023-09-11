@@ -1,5 +1,6 @@
 import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/models/cursor_pagination_model.dart';
+import 'package:delivery_app/common/utils/pagination_util.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/provider/restaurant_provider.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
@@ -23,10 +24,10 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   }
 
   void scrollListener() {
-    // 현재 위치가 최대 길이보다 조금 덜 되는 위치까지 왔다면 새로운 데이터를 추가요청
-    if (_controller.offset > _controller.position.maxScrollExtent - 300) {
-      ref.read(restaurantProvider.notifier).paginate(fetchMore: true);
-    }
+    PaginationUtils.paginate(
+      controller: _controller,
+      provider: ref.read(restaurantProvider.notifier),
+    );
   }
 
   @override
