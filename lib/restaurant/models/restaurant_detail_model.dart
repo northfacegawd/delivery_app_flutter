@@ -1,6 +1,6 @@
 import 'package:delivery_app/common/utils/data_util.dart';
-import 'package:delivery_app/product/models/product_model.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
+import 'package:delivery_app/restaurant/models/restaurant_product_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'restaurant_detail_model.g.dart';
@@ -8,7 +8,7 @@ part 'restaurant_detail_model.g.dart';
 @JsonSerializable()
 class RestaurantDetailModel extends RestaurantModel {
   final String detail;
-  final List<ProductModel> products;
+  final List<RestaurantProductModel> products;
 
   RestaurantDetailModel({
     required super.id,

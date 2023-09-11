@@ -1,10 +1,10 @@
 import 'package:delivery_app/auth/constants/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'product_model.g.dart';
+part 'restaurant_product_model.g.dart';
 
 @JsonSerializable()
-class ProductModel {
+class RestaurantProductModel {
   static pathToUrl(String value) => 'http://$ip$value';
 
   final String id, name, detail;
@@ -12,7 +12,7 @@ class ProductModel {
   final String imgUrl;
   final int price;
 
-  ProductModel({
+  RestaurantProductModel({
     required this.id,
     required this.name,
     required this.imgUrl,
@@ -20,8 +20,8 @@ class ProductModel {
     required this.price,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) =>
-      _$ProductModelFromJson(json);
+  factory RestaurantProductModel.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantProductModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+  Map<String, dynamic> toJson() => _$RestaurantProductModelToJson(this);
 }

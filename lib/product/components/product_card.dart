@@ -1,5 +1,5 @@
 import 'package:delivery_app/common/constants/colors.dart';
-import 'package:delivery_app/product/models/product_model.dart';
+import 'package:delivery_app/restaurant/models/restaurant_product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -16,7 +16,7 @@ class ProductCard extends StatelessWidget {
   });
 
   factory ProductCard.fromModel({
-    required ProductModel model,
+    required RestaurantProductModel model,
   }) {
     return ProductCard(
       image: Image.network(

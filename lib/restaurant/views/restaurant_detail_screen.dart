@@ -3,12 +3,12 @@ import 'package:delivery_app/common/layout/default_layout.dart';
 import 'package:delivery_app/common/models/cursor_pagination_model.dart';
 import 'package:delivery_app/common/utils/pagination_util.dart';
 import 'package:delivery_app/product/components/product_card.dart';
-import 'package:delivery_app/product/models/product_model.dart';
 import 'package:delivery_app/rating/components/rating_card.dart';
 import 'package:delivery_app/rating/models/rating_model.dart';
 import 'package:delivery_app/restaurant/components/restaurant_card.dart';
 import 'package:delivery_app/restaurant/models/restaurant_detail_model.dart';
 import 'package:delivery_app/restaurant/models/restaurant_model.dart';
+import 'package:delivery_app/restaurant/models/restaurant_product_model.dart';
 import 'package:delivery_app/restaurant/provider/restaurant_provider.dart';
 import 'package:delivery_app/restaurant/provider/restaurant_rating_provider.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +139,7 @@ class _RestaurantDetailScreenState
   }
 
   SliverPadding renderProducts({
-    required List<ProductModel> products,
+    required List<RestaurantProductModel> products,
     required BuildContext context,
   }) {
     return SliverPadding(
