@@ -1,5 +1,7 @@
 import 'package:delivery_app/auth/constants/data.dart';
 
 class DataUtils {
-  static pathToUrl(String value) => 'http://$ip$value';
+  static String pathToUrl(String value) => 'http://$ip$value';
+  static List<String> listPathsToUrls(List<String> paths) =>
+      paths.map((e) => pathToUrl(e)).toList();
 }
