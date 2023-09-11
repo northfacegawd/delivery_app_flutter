@@ -22,8 +22,13 @@ class RatingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _Header(avatarImage: avatarImage, email: email, rating: rating),
-        // const _Body(),
+        _Header(
+          avatarImage: avatarImage,
+          email: email,
+          rating: rating,
+        ),
+        const SizedBox(height: 8),
+        _Body(content: content),
         // const _Images(),
       ],
     );
@@ -84,7 +89,19 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Row(
+      children: [
+        Flexible(
+          child: Text(
+            content,
+            style: const TextStyle(
+              color: BODY_TEXT_COLOR,
+              fontSize: 13,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
