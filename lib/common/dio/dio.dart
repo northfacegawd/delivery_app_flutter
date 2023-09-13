@@ -1,4 +1,5 @@
 import 'package:delivery_app/auth/constants/data.dart';
+import 'package:delivery_app/auth/provider/auth_provider.dart';
 import 'package:delivery_app/common/secure_storage/secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,7 @@ final dioProvider = Provider((ref) {
   final dio = Dio();
   dio.interceptors.add(
     CustomInterceptor(
+      ref: ref,
       storage: ref.watch(secureStorageProvider),
     ),
   );
@@ -15,9 +17,11 @@ final dioProvider = Provider((ref) {
 });
 
 class CustomInterceptor extends Interceptor {
+  final Ref ref;
   final FlutterSecureStorage storage;
 
   CustomInterceptor({
+    required this.ref,
     required this.storage,
   });
 
@@ -89,6 +93,7 @@ class CustomInterceptor extends Interceptor {
         final retryResponse = await dio.fetch(options);
         return handler.resolve(retryResponse);
       } on DioException catch (e) {
+        ref.read(authProvider.notifier).logout();
         return handler.reject(e);
       }
     }
