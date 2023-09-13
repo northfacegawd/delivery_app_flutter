@@ -3,6 +3,11 @@ import 'package:delivery_app/user/models/basket_item_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
 
+final basketProvider =
+    StateNotifierProvider<BasketStateNotifier, List<BasketItemModel>>((ref) {
+  return BasketStateNotifier();
+});
+
 class BasketStateNotifier extends StateNotifier<List<BasketItemModel>> {
   BasketStateNotifier() : super([]);
 
