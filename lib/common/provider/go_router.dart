@@ -2,11 +2,12 @@ import 'package:delivery_app/auth/provider/auth_provider.dart';
 import 'package:delivery_app/auth/views/login_screen.dart';
 import 'package:delivery_app/common/views/root_tab.dart';
 import 'package:delivery_app/common/views/splash_screen.dart';
+import 'package:delivery_app/restaurant/views/basket_screen.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-enum RouteName { splash, login, home, restaurantDetail }
+enum RouteName { splash, login, home, restaurantDetail, basket }
 
 final routeProvider = Provider<GoRouter>((ref) {
   final provider = ref.read(authProvider);
@@ -27,6 +28,11 @@ final routeProvider = Provider<GoRouter>((ref) {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/basket',
+        name: RouteName.basket.name,
+        builder: (context, state) => const BasketScreen(),
       ),
       GoRoute(
         path: '/splash',
