@@ -1,11 +1,8 @@
-import 'dart:convert';
-
-import 'package:delivery_app/auth/constants/data.dart';
 import 'package:delivery_app/common/components/custom_text_form_field.dart';
 import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
-import 'package:delivery_app/common/secure_storage/secure_storage.dart';
-import 'package:delivery_app/common/views/root_tab.dart';
+import 'package:delivery_app/user/models/user_model.dart';
+import 'package:delivery_app/user/provider/user_me_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -25,38 +22,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   Future _onSubmit() async {
-    final storage = ref.watch(secureStorageProvider);
-
     if (_formKey.currentState != null &&
         _formKey.currentState!.saveAndValidate()) {
       final email = _formKey.currentState!.value["email"];
       final password = _formKey.currentState!.value["password"];
-      // ID:비밀번호
-      final rawString = '$email:$password';
-      Codec<String, String> stringToBase64 = utf8.fuse(base64);
-      final token = stringToBase64.encode(rawString);
-      final res = await dio.post(
-        "http://$ip/auth/login",
-        options: Options(headers: {
-          'Authorization': "Basic $token",
-        }),
-      );
-      await Future.wait([
-        storage.write(key: REFRESH_TOKEN_KEY, value: res.data['refreshToken']),
-        storage.write(key: ACCESS_TOKEN_KEY, value: res.data['accessToken']),
-      ]);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const RootTap(),
-        ),
-      );
+      ref
+          .read(userMeProvider.notifier)
+          .login(username: email, password: password);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(userMeProvider);
+
     return DefaultLayout(
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -101,7 +80,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: _onSubmit,
+                    onPressed: state is UserModelLoading ? null : _onSubmit,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR,
                     ),
