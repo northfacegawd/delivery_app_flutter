@@ -10,4 +10,6 @@ class DataUtils {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     return stringToBase64.encode(plain);
   }
+
+  static DateTime stringToDateTime(String value) => DateTime.parse(value);
 }
