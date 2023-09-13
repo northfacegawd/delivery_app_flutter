@@ -1,61 +1,9 @@
-import 'package:delivery_app/auth/constants/data.dart';
-import 'package:delivery_app/auth/views/login_screen.dart';
 import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
-import 'package:delivery_app/common/secure_storage/secure_storage.dart';
-import 'package:delivery_app/common/views/root_tab.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreen extends ConsumerStatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  ConsumerState<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends ConsumerState<SplashScreen> {
-  final dio = Dio();
-
-  @override
-  void initState() {
-    super.initState();
-    checkToken();
-  }
-
-  void checkToken() async {
-    final storage = ref.read(secureStorageProvider);
-    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
-
-    try {
-      var res = await dio.post(
-        'http://$ip/auth/token',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $refreshToken',
-          },
-        ),
-      );
-      await storage.write(
-        key: ACCESS_TOKEN_KEY,
-        value: res.data['accessToken'],
-      );
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const RootTap(),
-        ),
-        (route) => false,
-      );
-    } catch (e) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-        (route) => false,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

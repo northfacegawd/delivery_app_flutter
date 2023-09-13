@@ -21,7 +21,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // SplashScreen
-  String? redirectLogin(GoRouterState state) {
+  String? redirectLogic(GoRouterState state) {
     final user = ref.read(userMeProvider);
     final loggingIn = state.fullPath == '/login';
 
