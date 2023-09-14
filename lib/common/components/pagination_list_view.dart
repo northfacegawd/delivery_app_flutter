@@ -94,28 +94,35 @@ class _PaginationListViewState<T extends IModelWithId>
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListView.separated(
-        controller: _controller,
-        itemCount: cp.data.length + 1,
-        itemBuilder: <T>(context, index) {
-          if (index == cp.data.length) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Center(
-                child: cp is CursorPaginationFetchingMore
-                    ? const CircularProgressIndicator(color: PRIMARY_COLOR)
-                    : const Text("더 가져올 수 있는 데이터가 없습니다."),
-              ),
-            );
-          }
-          final item = cp.data[index];
-          return widget.itemBuilder(
-            context,
-            index,
-            item,
-          );
+      child: RefreshIndicator(
+        color: PRIMARY_COLOR,
+        onRefresh: () async {
+          ref.read(widget.provider.notifier).paginate();
         },
-        separatorBuilder: (context, index) => const SizedBox(height: 16),
+        child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: _controller,
+          itemCount: cp.data.length + 1,
+          itemBuilder: <T>(context, index) {
+            if (index == cp.data.length) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Center(
+                  child: cp is CursorPaginationFetchingMore
+                      ? const CircularProgressIndicator(color: PRIMARY_COLOR)
+                      : const Text("더 가져올 수 있는 데이터가 없습니다."),
+                ),
+              );
+            }
+            final item = cp.data[index];
+            return widget.itemBuilder(
+              context,
+              index,
+              item,
+            );
+          },
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+        ),
       ),
     );
   }
