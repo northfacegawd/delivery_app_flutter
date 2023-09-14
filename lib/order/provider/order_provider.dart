@@ -34,12 +34,14 @@ class OrderStateNotifier extends StateNotifier<List<OrderModel>> {
               0,
               (prev, current) =>
                   prev + (current.count * current.product.price)),
-          createAt: DateTime.now().toString(),
+          createdAt: DateTime.now().toString(),
         ),
       );
 
       return true;
-    } catch (e) {
+    } catch (e, stack) {
+      print(e);
+      print(stack);
       return false;
     }
   }

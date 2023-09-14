@@ -1,3 +1,4 @@
+import 'package:delivery_app/auth/constants/data.dart';
 import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/order/models/order_model.dart';
 import 'package:delivery_app/order/models/post_order_body.dart';
@@ -9,7 +10,7 @@ part 'order_repository.g.dart';
 
 final orderRepositoryProvider = Provider((ref) {
   final dio = ref.watch(dioProvider);
-  return OrderRepository(dio);
+  return OrderRepository(dio, baseUrl: 'http://$ip/order');
 });
 
 @RestApi()
