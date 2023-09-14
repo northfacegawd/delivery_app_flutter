@@ -39,7 +39,7 @@ class OrderStateNotifier
           createdAt: DateTime.now().toString(),
         ),
       );
-
+      paginate(forceRefetch: true);
       return true;
     } catch (e, stack) {
       print(e);
