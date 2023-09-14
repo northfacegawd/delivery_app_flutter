@@ -1,18 +1,41 @@
+import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:delivery_app/common/models/cursor_pagination_model.dart';
 import 'package:delivery_app/common/models/model_with_id.dart';
 import 'package:delivery_app/common/models/pagination_params.dart';
 import 'package:delivery_app/common/repository/base_pagination_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+class _PaginationInfo {
+  final int fetchCount;
+  // 추가로 데이터 더 가져오기
+  final bool fetchMore;
+  // 강제로 리로딩
+  final bool forceRefetch;
+
+  _PaginationInfo({
+    this.fetchCount = 20,
+    this.fetchMore = false,
+    this.forceRefetch = false,
+  });
+}
+
 class PaginationProvider<T extends IModelWithId,
         U extends IBasePaginationRepository<T>>
     extends StateNotifier<CursorPaginationBase> {
   final U repository;
+  final paginationThrottle = Throttle(
+    const Duration(milliseconds: 3000),
+    initialValue: _PaginationInfo(),
+    checkEquality: false,
+  );
 
   PaginationProvider({
     required this.repository,
   }) : super(CursorPaginationLoading()) {
     paginate();
+    paginationThrottle.values.listen((event) {
+      _throttlePagination(event);
+    });
   }
 
   Future<void> paginate({
@@ -22,6 +45,20 @@ class PaginationProvider<T extends IModelWithId,
     // 강제로 리로딩
     bool forceRefetch = false,
   }) async {
+    paginationThrottle.setValue(
+      _PaginationInfo(
+        fetchMore: fetchMore,
+        fetchCount: fetchCount,
+        forceRefetch: forceRefetch,
+      ),
+    );
+  }
+
+  _throttlePagination(_PaginationInfo info) async {
+    final fetchCount = info.fetchCount;
+    final fetchMore = info.fetchMore;
+    final forceRefetch = info.forceRefetch;
+
     try {
       // 5가지 케이스 (5가지 State)
       // 1) CursorPagination - 정상적으로 데이터를 받아온 상태
