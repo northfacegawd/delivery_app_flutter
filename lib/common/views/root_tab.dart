@@ -1,5 +1,6 @@
 import 'package:delivery_app/common/constants/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/order/views/order_screen.dart';
 import 'package:delivery_app/product/views/product_screen.dart';
 import 'package:delivery_app/restaurant/views/restaurant_screen.dart';
 import 'package:delivery_app/user/views/profile_screen.dart';
@@ -72,15 +73,11 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
         child: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
-          children: [
-            const RestaurantScreen(),
-            const ProductScreen(),
-            Center(
-              child: Container(
-                child: const Text("주문"),
-              ),
-            ),
-            const ProfileScreen()
+          children: const [
+            RestaurantScreen(),
+            ProductScreen(),
+            OrderScreen(),
+            ProfileScreen()
           ],
         ),
       ),
