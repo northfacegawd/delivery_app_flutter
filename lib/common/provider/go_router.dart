@@ -3,11 +3,19 @@ import 'package:delivery_app/auth/views/login_screen.dart';
 import 'package:delivery_app/common/views/root_tab.dart';
 import 'package:delivery_app/common/views/splash_screen.dart';
 import 'package:delivery_app/restaurant/views/basket_screen.dart';
+import 'package:delivery_app/restaurant/views/order_suceess_screen.dart';
 import 'package:delivery_app/restaurant/views/restaurant_detail_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-enum RouteName { splash, login, home, restaurantDetail, basket }
+enum RouteName {
+  splash,
+  login,
+  home,
+  restaurantDetail,
+  basket,
+  orderSuccess,
+}
 
 final routeProvider = Provider<GoRouter>((ref) {
   final provider = ref.read(authProvider);
@@ -43,6 +51,11 @@ final routeProvider = Provider<GoRouter>((ref) {
         path: '/login',
         name: RouteName.login.name,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/order_success',
+        name: RouteName.orderSuccess.name,
+        builder: (context, state) => const OrderSuccessScreen(),
       ),
     ],
     refreshListenable: provider,
